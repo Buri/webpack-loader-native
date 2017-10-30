@@ -1,5 +1,5 @@
 'use strict'
-
+const path = require('path')
 const getOptions = require('loader-utils').getOptions
 const defaultOptions = {
   mode: 'inline',
@@ -46,12 +46,13 @@ function external(content, opts) {
 }
 
 function _static(content, opts) {
-  const filename = val(opts.url)
+  const filename = path.parse(this.resourcePath).base
+  const output = val(opts.url, filename)
   return `try 
   {
-    global.process.dlopen(module, '${filename}') 
+    global.process.dlopen(module, '${output}') 
   } catch(e) {
-    throw new Error('Cannot open ${filename}: ' + e);
+    throw new Error('Cannot open ${output}: ' + e);
   }`
 }
 

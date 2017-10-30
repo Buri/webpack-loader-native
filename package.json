@@ -1,7 +1,7 @@
 {
   "name": "webpack-loader-native",
   "main": "loader.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": "npm/npm",
   "dependencies": {
     "loader-utils": "^1.1.0"
