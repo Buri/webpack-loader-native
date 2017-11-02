@@ -44,11 +44,12 @@ module.exports.raw = true
 function external(content, opts) {
   const filename = path.parse(this.resourcePath).base
   this.emitFile(filename, content)
-  return `try
+  return `const path = require('path').resolve('${filename}');
+  try
   {
-    global.process.dlopen(module, __dirname + '/${filename}')
+    global.process.dlopen(module, path)
   } catch(e) {
-    throw new Error('Cannot open ${filename}: ' + e);
+    throw new Error('Cannot open ' + path + ': ' + e);
   }`
 }
 
