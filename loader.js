@@ -42,7 +42,14 @@ module.exports = function(content) {
 module.exports.raw = true
 
 function external(content, opts) {
-  throw new Error('This feature is not yet complete')
+  const filename = path.parse(this.resourcePath).base
+  this.emitFile(filename, content)
+  return `try
+  {
+    global.process.dlopen(module, __dirname + '/${filename}')
+  } catch(e) {
+    throw new Error('Cannot open ${filename}: ' + e);
+  }`
 }
 
 function _static(content, opts) {
